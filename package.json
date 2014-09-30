@@ -1,0 +1,26 @@
+{
+  "name": "populations-models",
+  "contributors": [
+    "Sam Fentress",
+    "Aaron Unger"
+  ],
+  "version": "0.0.1",
+  "repository": "https://github.com/concord-consortium/population-models",
+  "scripts": {
+    "start": "node_modules/.bin/brunch watch --server"
+  },
+  "dependencies": {
+    "javascript-brunch": "~1.6.0",
+    "css-brunch": "~1.6.0",
+    "uglify-js-brunch": "~1.7.2",
+    "clean-css-brunch": "~1.6.0",
+    "digest-brunch": "*",
+    "jaded-brunch": "*",
+    "coffee-script-brunch": "~1.7.2"
+  },
+  "devDependencies": {
+    "brunch": "*",
+    "after-brunch": "*",
+    "stylus-brunch": "*"
+  }
+}

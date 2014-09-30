@@ -1,0 +1,15 @@
+{
+  "name": "populations-models",
+  "dependencies": {
+   "populations.js": "0.0.4"
+  },
+  "overrides": {
+    "populations.js": {
+      "main": [
+        "public/js/app.js",
+        "public/css/app.css",
+        "public/ui/carry-plant.png"
+      ]
+    }
+  }
+}
