@@ -1,7 +1,8 @@
 {
   "name": "populations-models",
   "dependencies": {
-   "populations.js": "0.0.4"
+   "pixi.js": "v2.2.9",
+   "populations.js": "0.0.8"
   },
   "overrides": {
     "populations.js": {
