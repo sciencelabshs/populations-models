@@ -14,6 +14,9 @@ stylesheets, and other assets.
 
 * [Node](http://nodejs.org/) `brew install node`
 * [Bower](http://bower.io/) `npm install -g bower`
+* Yarn: [installation](https://yarnpkg.com/lang/en/docs/install/)
+
+If Yarn is difficult to install, you can also skip it, and install the Node packages using `npm install` below.
 
 ### Setup Brunch and Project Libraries
 
@@ -21,7 +24,7 @@ You'll need to install the plugins required for the brunch project, as well
 as libraries the project depends on.
 
 ```
-  npm install
+  yarn (or `npm install`)
   bower install
 ```
 
@@ -32,6 +35,8 @@ Run this command:
 ```
   npm start
 ```
+
+Note, you may see errors of the form "Could not load module [x] from [y]" in the console. These can be ignored.
 
 Now open http://localhost:3333. Whenever you make a change to a file the
 browser will be automatically refreshed.
