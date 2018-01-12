@@ -1,7 +1,7 @@
 require.register "species/fast-plants-thin", (exports, require, module) ->
 
   Species = require 'models/species'
-  FastPlant = require 'models/fast-plant'
+  FastPlant = require 'models/agents/fast-plant'
   Trait   = require 'models/trait'
 
   module.exports = new Species

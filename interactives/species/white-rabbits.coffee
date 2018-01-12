@@ -1,8 +1,8 @@
 require.register "species/white-rabbits", (exports, require, module) ->
 
   Species = require 'models/species'
-  BasicAnimal = require 'models/basic-animal'
-  FastPlant = require 'models/fast-plant'
+  BasicAnimal = require 'models/agents/basic-animal'
+  FastPlant = require 'models/agents/fast-plant'
   Trait   = require 'models/trait'
 
   module.exports = new Species

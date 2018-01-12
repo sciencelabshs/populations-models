@@ -5,7 +5,7 @@ Species     = require 'models/species'
 Agent       = require 'models/agent'
 Rule        = require 'models/rule'
 Trait       = require 'models/trait'
-Interactive = require 'interactive/interactive'
+Interactive = require 'ui/interactive'
 
 plantSpecies = require 'species/varied-plants'
 env          = require 'environments/sunlight-flowerboxes'
