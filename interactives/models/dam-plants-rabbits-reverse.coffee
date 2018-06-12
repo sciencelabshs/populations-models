@@ -101,53 +101,74 @@ window.model =
     @chart1.draw(@chartData1, options1)
     @chart2.draw(@chartData2, options2)
 
-    updateCounts = =>
-      counts =
+    updateCharts = () =>
+      rabbitCounts =
+        top: [0,0,0,0]
+        bottom: [0,0,0,0]
+      plantCounts =
         top: [0,0,0,0]
         bottom: [0,0,0,0]
 
       for agent in @env.agents
         if agent.species is @rabbitSpecies
           if agent.getLocation().y < (@env.rows * @env._rowHeight)/2
-            counts.top[agent.get('size')] += 1
+            rabbitCounts.top[agent.get('size')] += 1
           else
-            counts.bottom[agent.get('size')] += 1
+            rabbitCounts.bottom[agent.get('size')] += 1
+        if agent.species is @plantSpecies
+          if agent.getLocation().y < (@env.rows * @env._rowHeight)/2
+            plantCounts.top[agent.get('roots')] += 1
+          else
+            plantCounts.bottom[agent.get('roots')] += 1
 
       for i in [0..2]
-        @chartData1.setValue(i, 1, counts.top[i+1])
-        @chartData2.setValue(i, 1, counts.bottom[i+1])
-
-      # if counts[1] > 10 or counts[5] > 10 or counts[9] > 10
-      #   options.vAxis.gridlines.count = -1
+        @chartData1.setValue(i, 1, rabbitCounts.top[i+1])
+        @chartData1.setValue(i, 3, plantCounts.top[i+1]*2)
+        @chartData2.setValue(i, 1, rabbitCounts.bottom[i+1])
+        @chartData2.setValue(i, 3, plantCounts.bottom[i+1]*2)
 
       @chart1.draw(@chartData1, options1)
       @chart2.draw(@chartData2, options2)
-    updateCounts()
 
-    Events.addEventListener Environment.EVENTS.STEP, updateCounts
+    Events.addEventListener Environment.EVENTS.STEP, updateCharts
+    $(".button:nth-child(3)").on('click', updateCharts);
+    $(".button:nth-child(4)").on('click', updateCharts);
+    updateCharts()
 
   _setupChartData: (chartData)->
-    chartData.addColumn('string', 'Rabbit types')
+    chartData.addColumn('string', 'Types')
     chartData.addColumn('number', 'Number of rabbits')
     chartData.addColumn({ type: 'string', role: 'style' })
+    chartData.addColumn('number', 'Number of plants')
+    chartData.addColumn({ type: 'string', role: 'style' })
     chartData.addRows [
-      ["Small",  0, "color: #FF0000"]
-      ["Medium", 0, "color: #FF0000"]
-      ["Big",    0, "color: #FF0000"]
+      ["Small",  0, "color: #FF0000", 0, "color: #00FF00"]
+      ["Medium", 0, "color: #DD0000", 0, "color: #00CC00"]
+      ["Big",    0, "color: #BB0000", 0, "color: #008800"]
     ]
 
   _getChartOptions: (titleMod)->
     # Set chart options
     return options =
       title: 'Rabbits in '+titleMod+' half of the field'
+      series:
+        0: {targetAxisIndex: 0}
+        1: {targetAxisIndex: 1}
+      vAxes:
+        0:
+          title: 'Number of rabbits'
+          minValue: 0
+          maxValue: 30
+          gridlines:
+            count: 6
+        1:
+          title: 'Number of plants'
+          minValue: 0
+          maxValue: 80
+          gridlines:
+            count: 6
       hAxis:
-        title: 'Rabbit types'
-      vAxis:
-        title: 'Number of rabbits'
-        minValue: 0
-        maxValue: 50
-        gridlines:
-          count: 6
+        title: 'Organisms'
       legend:
         position: 'none'
       width: 300

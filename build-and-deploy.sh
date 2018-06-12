@@ -1,23 +1,23 @@
 #!/bin/sh
 
 git diff --exit-code > /dev/null && git diff --staged --exit-code > /dev/null
-if [[ $? != 0 ]] ; then
-    echo "There are uncommitted changes to the git repo! git status:"
-    git status
-    exit 1
-fi
+# if [[ $? != 0 ]] ; then
+#     echo "There are uncommitted changes to the git repo! git status:"
+#     git status
+#     exit 1
+# fi
 
 export COMMIT=`git log -1 --format=%H`
 
-echo "changing to toplevel directory"
-cd $(git rev-parse --show-toplevel)
+# echo "changing to toplevel directory"
+# cd $(git rev-parse --show-toplevel)
 
-echo "Building application... "
-rm -rf public
+# echo "Building application... "
+# rm -rf public
 
-# afterBrunch doesn't seem to want to run unless we build in non-production mode first...
-node_modules/.bin/brunch build
-node_modules/.bin/brunch build -P
+# # afterBrunch doesn't seem to want to run unless we build in non-production mode first...
+# node_modules/.bin/brunch build
+# node_modules/.bin/brunch build -P
 
 
 echo "Committing contents of public folder"

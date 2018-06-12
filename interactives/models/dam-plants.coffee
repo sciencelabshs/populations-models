@@ -72,7 +72,7 @@ window.model =
     @chart1.draw(@chartData1, options1)
     @chart2.draw(@chartData2, options2)
 
-    Events.addEventListener Environment.EVENTS.STEP, =>
+    updateCharts = () =>
       counts =
         top: [0,0,0,0]
         bottom: [0,0,0,0]
@@ -85,8 +85,8 @@ window.model =
             counts.bottom[agent.get('roots')] += 1
 
       for i in [0..2]
-        @chartData1.setValue(i, 1, counts.top[i+1])
-        @chartData2.setValue(i, 1, counts.bottom[i+1])
+        @chartData1.setValue(i, 1, (counts.top[i+1])*2)
+        @chartData2.setValue(i, 1, (counts.bottom[i+1])*2)
 
       # if counts[1] > 10 or counts[5] > 10 or counts[9] > 10
       #   options.vAxis.gridlines.count = -1
@@ -94,14 +94,17 @@ window.model =
       @chart1.draw(@chartData1, options1)
       @chart2.draw(@chartData2, options2)
 
+    Events.addEventListener Environment.EVENTS.STEP, updateCharts
+    $(".button:nth-child(3)").on('click', updateCharts);
+
   _setupChartData: (chartData)->
     chartData.addColumn('string', 'Plant types')
     chartData.addColumn('number', 'Number of plants')
     chartData.addColumn({ type: 'string', role: 'style' })
     chartData.addRows [
-      ["Small",  0, "color: #FF0000"]
-      ["Medium", 0, "color: #FF0000"]
-      ["Big",    0, "color: #FF0000"]
+      ["Small",  0, "color: #00FF00"]
+      ["Medium", 0, "color: #00CC00"]
+      ["Big",    0, "color: #008800"]
     ]
 
   _getChartOptions: (titleMod)->
