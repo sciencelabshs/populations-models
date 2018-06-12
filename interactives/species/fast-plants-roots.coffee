@@ -17,8 +17,42 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
       new Trait {name: "max offspring distance", default: 200 }
       new Trait {name: "roots", possibleValues: [1,2,3], default: 2 }
       new Trait {name: "food quantity", default: 100 }
+      new Trait {name: 'glow',  possibleValues: [true, false], default: false }
     ]
     imageRules: [
+      {
+        name: 'glow'
+        contexts: ['environment']
+        rules: [
+          {
+            image:
+              path: "images/agents/grass/smallgrass-glow.png"
+              scale: 0.35
+              anchor:
+                x: 0.5
+                y: 1
+            useIf: (agent)-> agent.get('roots') is 1 and agent.get('glow')
+          }
+          {
+            image:
+              path: "images/agents/grass/medgrass-glow.png"
+              scale: 0.35
+              anchor:
+                x: 0.5
+                y: 1
+            useIf: (agent)-> agent.get('roots') is 2 and agent.get('glow')
+          }
+          {
+            image:
+              path: "images/agents/grass/tallgrass-glow.png"
+              scale: 0.35
+              anchor:
+                x: 0.5
+                y: 1
+            useIf: (agent)-> agent.get('roots') is 3 and agent.get('glow')
+          }
+        ]
+      }
       {
         name: 'plant'
         rules: [

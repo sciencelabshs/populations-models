@@ -11,7 +11,7 @@ Events      = require 'events'
 plantSpecies = require 'species/varied-plants'
 env          = require 'environments/sunlight-flowerboxes'
 
-window.model = 
+window.model =
   run: ->
     plantSpecies.defs.CAN_SEED = false
 
