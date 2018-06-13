@@ -37,7 +37,7 @@ window.model =
           species: rabbitSpecies
           imagePath: "images/agents/rabbits/smallbunny.png"
           traits: [
-            new Trait {name: "age", default: 3}
+            new Trait {name: "age", possibleValues: [3,50,100]}
           ]
           limit: 40
           scatter: 40
@@ -106,9 +106,9 @@ window.model =
 
       for i in [0..2]
         @chartData1.setValue(i, 1, rabbitCounts.top[i+1])
-        @chartData1.setValue(i, 3, plantCounts.top[i+1]*2)
+        @chartData1.setValue(i, 3, Math.floor(plantCounts.top[i+1]*1.5))
         @chartData2.setValue(i, 1, rabbitCounts.bottom[i+1])
-        @chartData2.setValue(i, 3, plantCounts.bottom[i+1]*2)
+        @chartData2.setValue(i, 3, Math.floor(plantCounts.bottom[i+1]*1.5))
 
       @chart1.draw(@chartData1, options1)
       @chart2.draw(@chartData2, options2)
@@ -124,31 +124,37 @@ window.model =
     chartData.addColumn('number', 'Number of plants')
     chartData.addColumn({ type: 'string', role: 'style' })
     chartData.addRows [
-      ["Small",  0, "color: #FF0000", 0, "color: #00FF00"]
-      ["Medium", 0, "color: #DD0000", 0, "color: #00CC00"]
-      ["Big",    0, "color: #BB0000", 0, "color: #008800"]
+      ["Small",  0, "color: #b77738", 0, "color: #00FF00"]
+      ["Medium", 0, "color: #6b5021", 0, "color: #00CC00"]
+      ["Big",    0, "color: #4c190a", 0, "color: #008800"]
     ]
 
   _getChartOptions: (titleMod)->
     # Set chart options
     return options =
-      title: 'Rabbits in '+titleMod+' half of the field'
-      series:
-        0: {targetAxisIndex: 0}
-        1: {targetAxisIndex: 1}
-      vAxes:
-        0:
-          title: 'Number of rabbits'
-          minValue: 0
-          maxValue: 30
-          gridlines:
-            count: 6
-        1:
-          title: 'Number of plants'
-          minValue: 0
-          maxValue: 80
-          gridlines:
-            count: 6
+      title: 'Rabbits and plants in '+titleMod+' of the field'
+      # series:
+      #   0: {targetAxisIndex: 0}
+      #   1: {targetAxisIndex: 1}
+      # vAxes:
+      #   0:
+      #     title: 'Number of rabbits'
+      #     minValue: 0
+      #     maxValue: 30
+      #     gridlines:
+      #       count: 6
+      #   1:
+      #     title: 'Number of plants'
+      #     minValue: 0
+      #     maxValue: 80
+      #     gridlines:
+      #       count: 6
+      vAxis:
+        title: 'Number of organisms'
+        minValue: 0
+        maxValue: 30
+        gridlines:
+          count: 6
       hAxis:
         title: 'Organisms'
       legend:

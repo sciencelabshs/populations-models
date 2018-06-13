@@ -5,32 +5,46 @@ html
     include includes/shared-headers
     include includes/shared-css
     include includes/shared-js
+    include includes/resize
 
     // model files here
     +script(src="species/fast-plants-roots.js")
     +script(src="environments/dam.js")
     +script(src="models/dam-plants.js")
     style(type="text/css").
+      body {
+        margin: 0;
+      }
+
+      #wrapper {
+        display: flex;
+      }
+
       #meta {
         padding: 2px;
-        display: inline-block;
-        vertical-align: top;
+        display: flex;
       }
 
       #meta .left {
         width: 150px;
-        display: inline-block;
-        vertical-align: top;
       }
 
       #meta .right {
-        display: inline-block;
         margin-left: 4px;
-        vertical-align: top;
+      }
+
+      #environment {
+        padding: 0;
+        overflow: unset;
+      }
+
+      #environment>div {
+        width: 600px;
       }
 
       .title {
         font-weight: bold;
+        padding-right: 5px;
       }
 
 
@@ -60,38 +74,60 @@ html
         background-color: blue;
       }
 
-  body
-    #environment
-    #meta
-      .left
-        .year-container
-          span.title= "Year:"
-          br
-          span#year= "1"
-        #controls
-          button#build-button= "Build Dam"
-        #water-level-container
-          .title= "Water below the dam"
-          .level
-            div= "Lots of water"
-            #water-level
-              #water-level-indicator
-            div= "Little water"
-        #highlight
-          span.title= "Highlight:"
-          br
-          input#highlight-none(type='radio' name='highlight' checked='checked')
-          ="None"
-          br
-          input#highlight-big(type='radio' name='highlight')
-          = "Big grass"
-          br
-          input#highlight-medium(type='radio' name='highlight')
-          = "Medium grass"
-          br
-          input#highlight-small(type='radio' name='highlight')
-          = "Small grass"
+      #fullscreen-button {
+        position: relative;
+        top: 6px;
+        left: -100px;
+        width: 42px;
+        height: 42px;
+        background: no-repeat url(assets/images/ui/fullscreen.svg) center/100%;
+        cursor: pointer;
+        border-radius: 5px;
+      }
 
-      .right
-        #chart1= "Chart 1 here"
-        #chart2= "Chart 2 here"
+      #fullscreen-button:hover {
+        background-size: 105%;
+        box-shadow: 0 0 2px #D09845;
+      }
+
+      #fullscreen-button.exit {
+        background: no-repeat url(assets/images/ui/fullscreen-exit.svg) center/100%;
+      }
+
+  body
+    #wrapper
+      #environment
+      #meta
+        .left
+          .year-container
+            span.title= "Year:"
+            span#year= "1"
+          #controls
+            button#build-button= "Build Dam"
+          #water-level-container
+            .title= "Water below the dam"
+            .level
+              div= "Lots of water"
+              #water-level
+                #water-level-indicator
+              div= "Little water"
+          #highlight
+            span.title= "Highlight:"
+            br
+            input#highlight-none(type='radio' name='highlight' checked='checked')
+            ="None"
+            br
+            input#highlight-big(type='radio' name='highlight')
+            = "Big grass"
+            br
+            input#highlight-medium(type='radio' name='highlight')
+            = "Medium grass"
+            br
+            input#highlight-small(type='radio' name='highlight')
+            = "Small grass"
+
+        .right
+          #chart1= "Chart 1 here"
+          #chart2= "Chart 2 here"
+
+      #fullscreen-button
