@@ -49,21 +49,10 @@ html
         }
         phone = new iframePhone.ParentEndpoint(iframe);
 
-        play = document.getElementById('play');
-        play.addEventListener('click', function(evt) {
-          // Send play event via iframe-phone
-          phone.post({type: 'play'});
-        });
-        stop = document.getElementById('stop');
-        stop.addEventListener('click', function(evt) {
-          // Send stop event via iframe-phone
-          phone.post({type: 'stop'});
-        });
-        reset = document.getElementById('reset');
-        reset.addEventListener('click', function(evt) {
-          // Send reset event via iframe-phone
-          phone.post({type: 'reset'});
-        });
+        phone.addListener('log', function (content) {});
+        phone.addListener('play', function (content) {});
+        phone.addListener('stop', function (content) {});
+        phone.addListener('reset', function (content) {});
       }
 
       createModelDiv = function(model, container) {
@@ -213,13 +202,6 @@ html
     .container
       .left-column
         h2 Models
-        .controls
-          span.control
-            a#play(href='#')= "Play"
-          span.control
-            a#stop(href='#')= "Stop"
-          span.control
-            a#reset(href='#')= "Reset"
         .model-collection
 
       .model

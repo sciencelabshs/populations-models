@@ -404,6 +404,8 @@ window.model =
     "images/environments/dam-year10.png"
   ]
 
+
+
 window.onload = ->
   helpers.preload [model, env, rabbitSpecies, plantSpecies], ->
     model.run()
@@ -411,3 +413,37 @@ window.onload = ->
     model.setupCharts()
     model.setupTimer()
     model.setupPopulationMonitoring()
+
+    if iframePhone
+      phone = iframePhone.getIFrameEndpoint()
+      phone.initialize()
+
+      log = (action, data) ->
+        data ?= {}
+        data.model = "Dam Model Rabbits-Plants"
+        console.log("%c Logging:", 'color: #f99a00', action, JSON.stringify(data));
+        phone.post 'log', {action: action, data: data}
+
+      Events.addEventListener Environment.EVENTS.START, ->
+        log('Model Start')
+      Events.addEventListener Environment.EVENTS.RESET, ->
+        log('Model Reset')
+      Events.addEventListener Environment.EVENTS.STOP, ->
+        log('Model Stop')
+      $("#build-button").on 'click', ->
+        log('Build Dam')
+      $(".button:nth-child(3)").on 'click', ->
+        log('Add Plants')
+      $(".button:nth-child(4)").on 'click', ->
+        log('Add Rabbits')
+      $(".button:nth-child(5)").on 'click', ->
+        log('Use Magnifying Glass')
+
+      $('#highlight-none').on 'click', ->
+        log('Remove Highlight')
+      $('#highlight-small').on 'click', ->
+        log('Add Highlight', {organisms: "Small Rabbits"})
+      $('#highlight-medium').on 'click', ->
+        log('Add Highlight', {organisms: "Medium Rabbits"})
+      $('#highlight-big').on 'click', ->
+        log('Add Highlight', {organisms: "Big Rabbits"})

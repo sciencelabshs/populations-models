@@ -131,8 +131,6 @@ window.model =
       @chart2.draw(@chartData2, options2)
 
     Events.addEventListener Environment.EVENTS.STEP, updateCharts
-    $(".button:nth-child(3)").on('click', updateCharts);
-    $(".button:nth-child(4)").on('click', updateCharts);
     updateCharts()
 
   _setupChartData: (chartData)->
@@ -427,3 +425,49 @@ window.onload = ->
     model.setupCharts()
     model.setupTimer()
     model.setupPopulationMonitoring()
+
+
+    if iframePhone
+      phone = iframePhone.getIFrameEndpoint()
+      phone.initialize()
+
+      metadata = {model: "Dam Plants-Rabbits Reverse"}
+
+      Events.addEventListener Environment.EVENTS.START, ->
+        phone.post 'log', {action: 'Model Start', data: metadata}
+      Events.addEventListener Environment.EVENTS.RESET, ->
+        phone.post 'log', {action: 'Model Reset', data: metadata}
+      Events.addEventListener Environment.EVENTS.STOP, ->
+        phone.post 'log', {action: 'Model Stop', data: metadata}
+      $("#remove-button").on 'click', () =>
+        phone.post 'log', {action: 'Remove Dam', data: metadata}
+
+    if iframePhone
+      phone = iframePhone.getIFrameEndpoint()
+      phone.initialize()
+
+      log = (action, data) ->
+        data ?= {}
+        data.model = "Dam Model Rabbits-Plants Reverse"
+        console.log("%c Logging:", 'color: #f99a00', action, JSON.stringify(data));
+        phone.post 'log', {action: action, data: data}
+
+      Events.addEventListener Environment.EVENTS.START, ->
+        log('Model Start')
+      Events.addEventListener Environment.EVENTS.RESET, ->
+        log('Model Reset')
+      Events.addEventListener Environment.EVENTS.STOP, ->
+        log('Model Stop')
+      $("#remove-button").on 'click', ->
+        log('Remove Dam')
+      $(".button:nth-child(3)").on 'click', ->
+        log('Use Magnifying Glass')
+
+      $('#highlight-none').on 'click', ->
+        log('Remove Highlight')
+      $('#highlight-small').on 'click', ->
+        log('Add Highlight', {organisms: "Small Rabbits"})
+      $('#highlight-medium').on 'click', ->
+        log('Add Highlight', {organisms: "Medium Rabbits"})
+      $('#highlight-big').on 'click', ->
+        log('Add Highlight', {organisms: "Big Rabbits"})
