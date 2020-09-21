@@ -37480,6 +37480,8 @@ window.onerror = function(msg, url, line) {
 var PPSliderClass;
 (function ($) {
 
+	var scale = 1;
+
   PPSliderClass = function (el, opts) {
     var startMouse, lastElemPos;
 
@@ -37490,7 +37492,11 @@ var PPSliderClass;
     var element = $(el);
     var options = opts;
     var isMouseDown = false;
-    var currentVal = 0;
+		var currentVal = 0;
+
+		if (opts.scale) {
+			scale = opts.scale;
+		}
 
     element.wrap('<div/>')
     var container = $(el).parent();
@@ -37551,7 +37557,7 @@ var PPSliderClass;
         e.preventDefault();
       }
       isMouseDown = true;
-      var pos = getMousePosition(e);
+			var pos = getMousePosition(e);
       if (options.vertical) {
         startMouse = pos.y;
         lastElemPos = ($(this).offset().top - $(this).parent().offset().top);
@@ -37595,7 +37601,7 @@ var PPSliderClass;
       } else {
         container.find('.pp-slider-button').css("left", newPos);
         container.find('.pp-slider-tooltip').html(currentVal+'%');
-        container.find('.pp-slider-tooltip').css('left', newPos-6);
+        container.find('.pp-slider-tooltip').css('left', (newPos)-6);
       }
     };
 
@@ -37608,12 +37614,12 @@ var PPSliderClass;
         upperBound = (container.find('.pp-slider-scale').height()-container.find('.pp-slider-button').height());
       } else {
         var spanX = (pos.x - startMouse);
-        newPos = (lastElemPos + spanX)
+        newPos = (lastElemPos + spanX) / scale
         upperBound = (container.find('.pp-slider-scale').width()-container.find('.pp-slider-button').width());
       }
       newPos = Math.max(0,newPos);
       newPos = Math.min(newPos,upperBound);
-      currentVal = Math.round((newPos/upperBound)*100,0);
+			currentVal = Math.round((newPos/upperBound)*100,0);
       if (options.vertical) {
         // inverted when vertical
         currentVal = 100 - currentVal;
@@ -37798,12 +37804,20 @@ module.exports = SpeedSlider = (function() {
     input.setAttribute("value", 50);
     this.view.appendChild(input);
     $(document).ready(function() {
-      $(input).change(function() {
-        return env.setSpeed(parseInt($(this).val()));
-      });
-      return $(input).PPSlider({
-        width: env.width
-      });
+			setTimeout(function() {
+				$(input).change(function() {
+					console.log(parseInt($(this).val()))
+					return env.setSpeed(parseInt($(this).val()));
+				});
+
+				var rect = env.getView().view.getBoundingClientRect();
+				var scale = rect.width / env.width;
+
+				return $(input).PPSlider({
+					width: env.width,
+					scale: scale
+				});
+			}, 500);
     });
   }
 
@@ -38519,16 +38533,19 @@ module.exports = EnvironmentView = (function() {
     var eventName, _i, _len, _ref, _results,
       _this = this;
     _ref = ["click", "mousedown", "mouseup", "mousemove", "touchstart", "touchmove", "touchend"];
-    _results = [];
+		_results = [];
+		var _this = this;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       eventName = _ref[_i];
-      _results.push(this.view.addEventListener(eventName, function(evt) {
+      _results.push(_this.view.addEventListener(eventName, function(evt) {
+        var rect = _this.view.getBoundingClientRect();
+        var scale = rect.width / _this.environment.width;
         if (evt instanceof TouchEvent) {
-          evt.envX = evt.changedTouches[0].pageX - _this.view.offsetLeft;
-          evt.envY = evt.changedTouches[0].pageY - _this.view.offsetTop;
+          evt.envX = (evt.changedTouches[0].pageX - rect.x) / scale;
+          evt.envY = (evt.changedTouches[0].pageY - rect.y) / scale;
         } else {
-          evt.envX = evt.pageX - _this.view.offsetLeft;
-          evt.envY = evt.pageY - _this.view.offsetTop;
+          evt.envX = (evt.pageX - rect.x) / scale;
+          evt.envY = (evt.pageY - rect.y) / scale;
         }
         return _this.environment.send(evt.type, evt);
       }));
