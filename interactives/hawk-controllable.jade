@@ -6,6 +6,7 @@ html
     include includes/shared-css
     include includes/shared-js
     include includes/shared-graph
+    include includes/resize
 
     // model files here
     +script(src="species/fast-plants-roots.js")
@@ -22,6 +23,11 @@ html
         margin-top: 10px;
       }
 
+      .caught {
+        position: absolute;
+        top: 10px;
+        left: 540px;
+      }
       #caught-value {
         font-weight: bold;
         font-size: 1.2em;
@@ -30,17 +36,16 @@ html
 
       #graph {
         position: absolute;
-        top: 500px;
-        left: 5px;
-        width: 500px;
+        top: 80px;
+        left: 530px;
+        width: 420px;
         height: 300px;
       }
 
   body
-    #environment
-    #side
+    #wrapper
+      #environment
       .caught= "Rabbits caught:"
         br
         span#caught-value= "0"
-    #below
       #graph
