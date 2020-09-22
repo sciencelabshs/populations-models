@@ -35,19 +35,19 @@ window.model =
           species: rabbitSpecies
           imagePath: "images/agents/rabbits/rabbit2.png"
           traits: [
-            new Trait {name: "mating desire bonus", default: -20}
+            new Trait {name: "mating desire bonus", default: -25}
             new Trait {name: "hunger bonus", default: -10}
             new Trait {name: "age", default: 3}
             new Trait {name: "resource consumption rate", default: 10}
-            new Trait {name: "min offspring", default: 3}
-            new Trait {name: "max offspring", default: 10}
+            new Trait {name: "min offspring", default: 1}
+            new Trait {name: "max offspring", default: 3}
             new Trait {name: "metabolism", default: 1}
-            new Trait {name: "chance of being seen", default: 0.17}
-            new Trait {name: "mating distance", default: 250}
+            new Trait {name: "chance of being seen", default: 0.3}
+            new Trait {name: "mating distance", default: 350}
             new Trait {name: "vision distance", default: 500}
             new Trait {name: "color", default: "white"}
           ]
-          limit: 700
+          limit: 250
           scatter: 70
           showRemoveButton: true
         }
@@ -57,9 +57,9 @@ window.model =
           traits: [
             new Trait {name: "min offspring", default: 2}
             new Trait {name: "max offspring", default: 4}
-            new Trait {name: "mating distance", default: 140}
-            new Trait {name: "eating distance", default:  50}
-            new Trait {name: "vision distance", default: 350}
+            new Trait {name: "mating distance", default: 340}
+            new Trait {name: "eating distance", default:  100}
+            new Trait {name: "vision distance", default: 500}
             new Trait {name: "metabolism", default: 6}
           ]
           limit: 150
@@ -203,8 +203,8 @@ window.model =
       @_setProperty allHawks, "metabolism", 8
     else if allHawks.length < 8
       @_setProperty allHawks, "min offspring", 3
-      @_setProperty allHawks, "max offspring", 4
-      @_setProperty allHawks, "metabolism", 4
+      @_setProperty allHawks, "max offspring", 6
+      @_setProperty allHawks, "metabolism", 1
     else
       @_setProperty allHawks, "min offspring", 2
       @_setProperty allHawks, "max offspring", 3
