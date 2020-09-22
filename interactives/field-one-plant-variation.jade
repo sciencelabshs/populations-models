@@ -5,12 +5,32 @@ html
     include includes/shared-headers
     include includes/shared-css
     include includes/shared-js
+    include includes/resize
 
     // model files here
     +script(src="species/varied-plants.js")
     +script(src="environments/sunlight-field.js")
     +script(src="models/field-one-plant-variation.js")
+    style(type="text/css").
+      body {
+        margin: 0;
+      }
+
+      #wrapper {
+        display: flex;
+      }
+
+      .toolbar {
+        position: absolute;
+        left: 611px;
+      }
+
+      #chart {
+        position: absolute;
+        left: 679px;
+      }
 
   body
-    #environment
-    #chart
+    #wrapper
+      #environment
+      #chart
