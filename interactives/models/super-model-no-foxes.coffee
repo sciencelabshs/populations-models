@@ -35,12 +35,13 @@ window.model =
           species: rabbitSpecies
           imagePath: "images/agents/rabbits/rabbit2.png"
           traits: [
+            new Trait {name: "maturity age", default: 200}
             new Trait {name: "mating desire bonus", default: -25}
-            new Trait {name: "hunger bonus", default: -10}
-            new Trait {name: "age", default: 3}
+            new Trait {name: "hunger bonus", default: -15}
+            new Trait {name: "age", default: 10}
             new Trait {name: "resource consumption rate", default: 10}
             new Trait {name: "min offspring", default: 1}
-            new Trait {name: "max offspring", default: 3}
+            new Trait {name: "max offspring", default: 4}
             new Trait {name: "metabolism", default: 1}
             new Trait {name: "chance of being seen", default: 0.3}
             new Trait {name: "mating distance", default: 350}
@@ -55,6 +56,7 @@ window.model =
           species: hawkSpecies
           imagePath: "images/agents/hawks/hawk.png"
           traits: [
+            new Trait {name: "hunger bonus", default: -5}
             new Trait {name: "min offspring", default: 2}
             new Trait {name: "max offspring", default: 4}
             new Trait {name: "mating distance", default: 340}
@@ -145,13 +147,16 @@ window.model =
   _timeOfExtinction: 0
   setupPopulationControls: ->
     Events.addEventListener Environment.EVENTS.STEP, =>
+      allGrass = @_agentsOfSpecies @plantSpecies
       allRabbits = @_agentsOfSpecies @rabbitSpecies
       allHawks = @_agentsOfSpecies @hawkSpecies
       @_checkExtinction allRabbits, allHawks
 
+      @_checkGrass allGrass
       @_checkPredators allHawks
+      @_checkRabbits allRabbits
 
-      if (@env.date + 1) % 350 is 0
+      if (@env.date + 1) % 400 is 0
         @_showEndMessage()
     Events.addEventListener Environment.EVENTS.RESET, =>
       @_showEndMessage() unless @_endMessageShown
@@ -184,7 +189,7 @@ window.model =
       @_hawksAreDead = false
 
     if @_hawksAreDead or @_rabbitsAreDead
-      if @env.date is (@_timeOfExtinction + 20)
+      if @env.date is (@_timeOfExtinction + 50)
         if (@_hawksAreDead and !@_hawksRemoved) or (@_rabbitsAreDead and !@_rabbitsRemoved)
           @_showEndMessage()
     else if @_addedRabbits
@@ -197,11 +202,11 @@ window.model =
       agent.set property, value
 
   _checkPredators: (allHawks)->
-    if allHawks.length > 16
+    if allHawks.length > 20
       @_setProperty allHawks, "min offspring", 0
       @_setProperty allHawks, "max offspring", 1
       @_setProperty allHawks, "metabolism", 8
-    else if allHawks.length < 8
+    else if allHawks.length < 10
       @_setProperty allHawks, "min offspring", 3
       @_setProperty allHawks, "max offspring", 6
       @_setProperty allHawks, "metabolism", 1
@@ -209,6 +214,41 @@ window.model =
       @_setProperty allHawks, "min offspring", 2
       @_setProperty allHawks, "max offspring", 3
       @_setProperty allHawks, "metabolism", 6
+
+
+  _checkRabbits: (allRabbits)->
+    if allRabbits.length > 80
+      @_setProperty allRabbits, "min offspring", 0
+      @_setProperty allRabbits, "max offspring", 1
+      @_setProperty allRabbits, "metabolism", 4
+      @_setProperty allRabbits, "chance of being seen", 0.6
+    else if allRabbits.length < 30
+      @_setProperty allRabbits, "min offspring", 3
+      @_setProperty allRabbits, "max offspring", 6
+      @_setProperty allRabbits, "metabolism", 2
+      @_setProperty allRabbits, "chance of being seen", 0.2
+    else if allRabbits.length < 20
+      @_setProperty allRabbits, "min offspring", 4
+      @_setProperty allRabbits, "max offspring", 7
+      @_setProperty allRabbits, "metabolism", 1
+      @_setProperty allRabbits, "chance of being seen", 0.1
+    else
+      @_setProperty allRabbits, "min offspring", 1
+      @_setProperty allRabbits, "max offspring", 4
+      @_setProperty allRabbits, "metabolism", 1
+      @_setProperty allRabbits, "chance of being seen", 0.3
+
+  _checkGrass: (allGrass)->
+    if allGrass.length > 30 && allGrass.length < 60
+      for i in [1..(Math.ceil(Math.random() * 12))]
+        plant = plantSpecies.createAgent()
+        plant.setLocation @env.randomLocation()
+        @env.addAgent plant
+    else if allGrass.length > 5 && allGrass.length < 30
+      for i in [1..(Math.ceil(Math.random() * 5))]
+        plant = plantSpecies.createAgent()
+        plant.setLocation @env.randomLocation()
+        @env.addAgent plant
 
   preload: [
     "images/agents/grass/tallgrass.png",

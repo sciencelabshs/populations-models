@@ -9,7 +9,7 @@ require.register "species/white-brown-rabbits", (exports, require, module) ->
     agentClass: BasicAnimal
     defs:
       MAX_HEALTH: 1
-      MATURITY_AGE: 9
+      MATURITY_AGE: 20
       CHANCE_OF_MUTATION: 0
       INFO_VIEW_SCALE: 2.5
       INFO_VIEW_PROPERTIES:
