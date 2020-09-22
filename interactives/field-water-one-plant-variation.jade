@@ -5,18 +5,31 @@ html
     include includes/shared-headers
     include includes/shared-css
     include includes/shared-js
+    include includes/resize
 
     // model files here
     +script(src="species/varied-plants.js")
     +script(src="environments/water-field.js")
     +script(src="models/field-water-one-plant-variation.js")
     style(type="text/css").
+      body {
+        margin: 0;
+      }
+
+      #wrapper {
+        display: flex;
+      }
+
       #money {
+        position: absolute;
+        left: 812px;
+        top: 405px;
         border: 3px solid black;
         padding: 2px;
         display: inline-block;
         vertical-align: top;
-        margin-top: 400px;
+        height: 40px;
+        width: 130px;
       }
 
       #money-value {
@@ -24,8 +37,20 @@ html
         font-size: 1.2em;
       }
 
+      .toolbar {
+        position: absolute;
+        left: 711px;
+      }
+
+      #chart {
+        position: absolute;
+        left: 779px;
+      }
+
   body
-    #environment
-    #money Money remaining:
-      br
-      span#money-value $20
+    #wrapper
+      #environment
+      #money Money remaining:
+        br
+        span#money-value $20
+      #chart
