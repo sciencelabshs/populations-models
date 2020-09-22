@@ -28,7 +28,7 @@ window.model =
             new Trait {name: "size", default: 5}
             new Trait {name: "root size", default: 1}
           ]
-          limit: 15
+          limit: 20
         }
       ]
       toolButtons: [
