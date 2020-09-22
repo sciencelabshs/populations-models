@@ -18,8 +18,8 @@ env           = require 'environments/snow'
 
 window.model =
   hawk: null
-  startingPlants: 200
-  startingRabbits: 25
+  startingPlants: 250
+  startingRabbits: 28
   setupEnvironment: ->
     for i in [1..@startingPlants]
       plant = plantSpecies.createAgent()
@@ -32,8 +32,8 @@ window.model =
         rabbit.set 'age', 10
         rabbit.set 'mating desire bonus', 10
         rabbit.set 'hunger bonus', -10
-        rabbit.set 'resource consumption rate', 10
-        rabbit.set 'fear bonus', -1000
+        rabbit.set 'resource consumption rate', 8
+        rabbit.set 'fear bonus', 20
         rabbit.set 'color', color
         rabbit.setLocation @env.randomLocation()
         @env.addAgent rabbit
@@ -75,7 +75,7 @@ window.model =
       title:  "Number of rabbits"
       xlabel: "Time (s)"
       ylabel: "Number of rabbits"
-      xmax:   30
+      xmax:   20
       xmin:   0
       ymax:   80
       ymin:   0
@@ -104,10 +104,30 @@ window.model =
     Events.addEventListener Environment.EVENTS.STEP, =>
       whiteRabbits = 0
       brownRabbits = 0
+      numGrass = 0
       for a in @env.agents
         whiteRabbits++ if a.species is @rabbitSpecies and a.get('color') is 'white'
         brownRabbits++ if a.species is @rabbitSpecies and a.get('color') is 'brown'
+        numGrass++ if a.species is @plantSpecies
       @outputGraph.addSamples [whiteRabbits, brownRabbits]
+
+      if (whiteRabbits + brownRabbits) < 15 && Math.random() < 0.4
+        for color in ['white', 'brown']
+          rabbit = rabbitSpecies.createAgent()
+          rabbit.set 'age', 10
+          rabbit.set 'mating desire bonus', 10
+          rabbit.set 'hunger bonus', -10
+          rabbit.set 'resource consumption rate', 8
+          rabbit.set 'fear bonus', 20
+          rabbit.set 'color', color
+          rabbit.setLocation @env.randomLocation()
+          @env.addAgent rabbit
+
+      if numGrass < 200
+        for i in [1..(Math.ceil(Math.random() * 10))]
+          plant = plantSpecies.createAgent()
+          plant.setLocation @env.randomLocation()
+          @env.addAgent plant
 
   numEaten: 0
   brownEaten: 0
@@ -168,7 +188,7 @@ window.model =
   setupTimer: ->
     Events.addEventListener Environment.EVENTS.STEP, =>
       t = Math.floor(@env.date * Environment.DEFAULT_RUN_LOOP_DELAY / 1000) # this will calculate seconds at default speed
-      if t >= 30 or @_numRabbits() is 0
+      if t >= 20 or @_numRabbits() is 0
         @env.stop()
         if @numEaten is 0
           @showMessage "Oh no, you didn't catch any rabbits!<br/>Press Reset to try again, and be sure to click on the rabbits to eat them."
