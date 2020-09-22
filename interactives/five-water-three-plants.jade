@@ -5,11 +5,32 @@ html
     include includes/shared-headers
     include includes/shared-css
     include includes/shared-js
+    include includes/resize
 
     // model files here
     +script(src="species/varied-plants.js")
     +script(src="environments/water-flowerboxes.js")
     +script(src="models/five-water-three-plants.js")
+    style(type="text/css").
+      body {
+        margin: 0;
+      }
+
+      #wrapper {
+        display: flex;
+      }
+
+      .toolbar {
+        position: absolute;
+        left: 530px;
+      }
+
+      #chart {
+        position: absolute;
+        left: 598px;
+      }
 
   body
-    #environment
+    #wrapper
+      #environment
+      #chart
