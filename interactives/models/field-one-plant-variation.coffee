@@ -12,7 +12,7 @@ ToolButton  = require 'ui/tool-button'
 plantSpecies = require 'species/varied-plants'
 env          = require 'environments/sunlight-field'
 
-window.model = 
+window.model =
   run: ->
     plantSpecies.defs.CHANCE_OF_MUTATION = 0.3
     plantSpecies.setMutatable 'root size', false
@@ -84,11 +84,11 @@ window.model =
 
     Events.addEventListener Environment.EVENTS.STEP, =>
       unless @env.get(0, 0, "season") is "summer" then return
-      counts = []; counts.push(0) for i in [0..9]
+      counts = []; counts.push(0) for i in [0..10]
       for agent in @env.agents
         counts[agent.get('size')] += 1 if agent.get('has flowers')
 
-      for i in [0..8]
+      for i in [0..9]
         @chartData.setValue(i, 1, counts[i+1])
 
       if counts[1] > 10 or counts[5] > 10 or counts[9] > 10
