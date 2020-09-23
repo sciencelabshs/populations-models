@@ -1,0 +1,30 @@
+include includes/_helpers
+doctype html
+html
+  head
+    include includes/shared-headers
+    include includes/shared-css
+    include includes/shared-js
+    include includes/resize
+
+    // model files here
+    +script(src="species/varied-plants.js")
+    +script(src="environments/sunlight-mountain.js")
+    +script(src="models/field-one-plant-one-sunlight.js")
+    style(type="text/css").
+      body {
+        margin: 0;
+      }
+
+      #wrapper {
+        display: flex;
+      }
+
+      .toolbar {
+        position: absolute;
+        left: 611px;
+      }
+
+  body
+    #wrapper
+      #environment
