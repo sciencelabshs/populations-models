@@ -63,16 +63,16 @@ window.model =
     @chartData.addColumn('number', 'Flowers')
     @chartData.addColumn({ type: 'string', role: 'style' })
     @chartData.addRows [
-      ["1",  0, "color: #5942BF"]
-      ["2",  0, "color: #5F42B8"]
-      ["3",  0, "color: #65429F"]
-      ["4",  0, "color: #73419E"]
-      ["5",  0, "color: #874084"]
-      ["6",  0, "color: #904078"]
-      ["7",  0, "color: #9F416B"]
-      ["8",  0, "color: #B5435A"]
-      ["9",  0, "color: #C84349"]
-      ["10", 0, "color: #D34441"]
+      ["1",  0, "color: #888"]
+      ["2",  0, "color: #888"]
+      ["3",  0, "color: #888"]
+      ["4",  0, "color: #888"]
+      ["5",  0, "color: #888"]
+      ["6",  0, "color: #888"]
+      ["7",  0, "color: #888"]
+      ["8",  0, "color: #888"]
+      ["9",  0, "color: #888"]
+      ["10", 0, "color: #888"]
     ]
 
     # Set chart options
