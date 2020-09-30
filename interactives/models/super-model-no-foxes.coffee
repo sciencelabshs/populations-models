@@ -17,6 +17,9 @@ env           = require 'environments/open'
 
 window.model =
   run: ->
+    rabbitSpecies.defs.MATURITY_AGE = 35
+    rabbitSpecies.defs.MAX_AGE = 4000
+
     @interactive = new Interactive
       environment: env
       speedSlider: false
@@ -35,37 +38,39 @@ window.model =
           species: rabbitSpecies
           imagePath: "images/agents/rabbits/rabbit2.png"
           traits: [
-            new Trait {name: "maturity age", default: 200}
-            new Trait {name: "mating desire bonus", default: -25}
+            new Trait {name: "maturity age", default: 2000}
+            new Trait {name: "mating desire bonus", default: -12}
+            new Trait {name: "fear bonus", default: -200}
             new Trait {name: "hunger bonus", default: -15}
-            new Trait {name: "age", default: 10}
+            new Trait {name: "age", min: 1, max: 25}
             new Trait {name: "resource consumption rate", default: 10}
             new Trait {name: "min offspring", default: 1}
-            new Trait {name: "max offspring", default: 4}
-            new Trait {name: "metabolism", default: 1}
+            new Trait {name: "max offspring", default: 3}
+            new Trait {name: "metabolism", default: 0.6}
             new Trait {name: "chance of being seen", default: 0.3}
-            new Trait {name: "mating distance", default: 350}
-            new Trait {name: "vision distance", default: 500}
+            new Trait {name: "mating distance", default: 900}
+            new Trait {name: "vision distance", default: 1000}
             new Trait {name: "color", default: "white"}
           ]
-          limit: 250
-          scatter: 70
+          limit: 150
+          scatter: 50
           showRemoveButton: true
         }
         {
           species: hawkSpecies
           imagePath: "images/agents/hawks/hawk.png"
           traits: [
-            new Trait {name: "hunger bonus", default: -5}
-            new Trait {name: "min offspring", default: 2}
-            new Trait {name: "max offspring", default: 4}
+            new Trait {name: "age", min: 1, max: 10}
+            new Trait {name: "mating desire bonus", default: -25}
+            new Trait {name: "min offspring", default: 0}
+            new Trait {name: "max offspring", default: 1}
             new Trait {name: "mating distance", default: 340}
-            new Trait {name: "eating distance", default:  100}
-            new Trait {name: "vision distance", default: 500}
-            new Trait {name: "metabolism", default: 6}
+            new Trait {name: "eating distance", default:  150}
+            new Trait {name: "vision distance", default: 1000}
+            new Trait {name: "metabolism", default: 1}
           ]
-          limit: 150
-          scatter: 6
+          limit: 15
+          scatter: 5
           showRemoveButton: true
         }
       ]
@@ -87,7 +92,7 @@ window.model =
       title:  "Number of organisms"
       xlabel: "Time (s)"
       ylabel: "Number of organisms"
-      xmax:   100
+      xmax:   30
       xmin:   0
       ymax:   50
       ymin:   0
@@ -202,50 +207,69 @@ window.model =
       agent.set property, value
 
   _checkPredators: (allHawks)->
-    if allHawks.length > 20
+    if allHawks.length > 17
+      @_setProperty allHawks, "min offspring", 0
+      @_setProperty allHawks, "max offspring", 0
+      @_setProperty allHawks, "metabolism", 3
+    else if allHawks.length > 14
       @_setProperty allHawks, "min offspring", 0
       @_setProperty allHawks, "max offspring", 1
-      @_setProperty allHawks, "metabolism", 8
-    else if allHawks.length < 10
-      @_setProperty allHawks, "min offspring", 3
-      @_setProperty allHawks, "max offspring", 6
-      @_setProperty allHawks, "metabolism", 1
+      @_setProperty allHawks, "metabolism", 0.2
+    else if allHawks.length < 8
+      @_setProperty allHawks, "min offspring", 0
+      @_setProperty allHawks, "max offspring", 2
+      @_setProperty allHawks, "metabolism", 0.1
     else
-      @_setProperty allHawks, "min offspring", 2
-      @_setProperty allHawks, "max offspring", 3
-      @_setProperty allHawks, "metabolism", 6
+      @_setProperty allHawks, "min offspring", 0
+      @_setProperty allHawks, "max offspring", 2
+      @_setProperty allHawks, "metabolism", 0.2
 
 
   _checkRabbits: (allRabbits)->
-    if allRabbits.length > 80
+    if allRabbits.length > 60
       @_setProperty allRabbits, "min offspring", 0
       @_setProperty allRabbits, "max offspring", 1
-      @_setProperty allRabbits, "metabolism", 4
-      @_setProperty allRabbits, "chance of being seen", 0.6
-    else if allRabbits.length < 30
+      @_setProperty allRabbits, "metabolism", 2
+      @_setProperty allRabbits, "chance of being seen", 0.3
+      @_setProperty allRabbits, "mating desire bonus", -15
+    else if allRabbits.length < 40
       @_setProperty allRabbits, "min offspring", 3
       @_setProperty allRabbits, "max offspring", 6
       @_setProperty allRabbits, "metabolism", 2
-      @_setProperty allRabbits, "chance of being seen", 0.2
-    else if allRabbits.length < 20
+      @_setProperty allRabbits, "chance of being seen", 0.001
+      @_setProperty allRabbits, "mating desire bonus", 15
+    else if allRabbits.length < 30
       @_setProperty allRabbits, "min offspring", 4
       @_setProperty allRabbits, "max offspring", 7
       @_setProperty allRabbits, "metabolism", 1
-      @_setProperty allRabbits, "chance of being seen", 0.1
+      @_setProperty allRabbits, "chance of being seen", 0.0005
+      @_setProperty allRabbits, "mating desire bonus", 50
     else
       @_setProperty allRabbits, "min offspring", 1
       @_setProperty allRabbits, "max offspring", 4
-      @_setProperty allRabbits, "metabolism", 1
-      @_setProperty allRabbits, "chance of being seen", 0.3
+      @_setProperty allRabbits, "metabolism", 2
+      @_setProperty allRabbits, "chance of being seen", 0.01
+      @_setProperty allRabbits, "mating desire bonus", -12
 
   _checkGrass: (allGrass)->
-    if allGrass.length > 30 && allGrass.length < 60
-      for i in [1..(Math.ceil(Math.random() * 12))]
-        plant = plantSpecies.createAgent()
-        plant.setLocation @env.randomLocation()
-        @env.addAgent plant
-    else if allGrass.length > 5 && allGrass.length < 30
-      for i in [1..(Math.ceil(Math.random() * 5))]
+    if allGrass.length > 720
+      @_setProperty allGrass, "max offspring", 1
+      @_setProperty allGrass, "growth rate", 0.0002
+    else if allGrass.length > 620
+      @_setProperty allGrass, "max offspring", 1
+      @_setProperty allGrass, "growth rate", 0.0005
+    else if allGrass.length > 400
+      @_setProperty allGrass, "max offspring", 2
+      @_setProperty allGrass, "growth rate", 0.001
+    else if allGrass.length < 100
+      @_setProperty allGrass, "max offspring", 3
+      @_setProperty allGrass, "growth rate", 0.003
+    else
+      @_setProperty allGrass, "max offspring", 3
+      @_setProperty allGrass, "growth rate", 0.003
+
+    if allGrass.length < 60
+      for i in [1..(Math.ceil(Math.random() * 2))]
         plant = plantSpecies.createAgent()
         plant.setLocation @env.randomLocation()
         @env.addAgent plant

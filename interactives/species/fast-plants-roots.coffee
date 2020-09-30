@@ -27,7 +27,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/smallgrass-glow.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -36,7 +36,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/medgrass-glow.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -45,7 +45,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/tallgrass-glow.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -59,7 +59,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/smallgrass.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -68,7 +68,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/smallgrass-brown.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -77,7 +77,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/medgrass.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -86,7 +86,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/medgrass-brown.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -95,7 +95,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/tallgrass.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1
@@ -104,7 +104,7 @@ require.register "species/fast-plants-roots", (exports, require, module) ->
           {
             image:
               path: "images/agents/grass/tallgrass-brown.png"
-              scale: 0.35
+              scale: 0.5
               anchor:
                 x: 0.5
                 y: 1

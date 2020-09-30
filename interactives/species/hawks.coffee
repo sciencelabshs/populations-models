@@ -10,6 +10,8 @@ require.register "species/hawks", (exports, require, module) ->
     defs:
       CHANCE_OF_MUTATION: 0
       INFO_VIEW_SCALE: 1
+      MATURITY_AGE: 15
+      MAX_AGE: 10000
     traits: [
       new Trait {name: 'speed', default: 80 }
       new Trait {name: 'prey', default: [{name: 'rabbits'}] }
