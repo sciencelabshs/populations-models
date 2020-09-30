@@ -38427,6 +38427,7 @@ module.exports = EnvironmentView = (function() {
     layer.addChild(this._backgroundSprite);
     this.renderBarriers(layer);
     this.renderAgents();
+    this._sortStage();
     animate = function() {
       var agent, _i, _len, _ref;
       requestAnimFrame(animate);
@@ -38439,6 +38440,7 @@ module.exports = EnvironmentView = (function() {
         _this.environment.carriedAgent.getView().rerender(_this._getOrCreateLayer(100), 'carry-tool');
       }
       _this.barrierGraphics.visible = _this.showingBarriers;
+      _this._sortStage();
       return _this.renderer.render(_this.stage);
     };
     requestAnimFrame(animate);
@@ -38584,6 +38586,16 @@ module.exports = EnvironmentView = (function() {
     }
     return this._layers[idx];
   };
+
+  EnvironmentView.prototype._sortStage = function() {
+		if (!this.environment.depthPerception) { return; }
+    // sort each of the stage's childrens' children by y value, ascending, so that agents on the bottom of the environment
+		// will be drawn on top of agents higher up in the environment
+    this.stage.children.map((container) =>
+      container.children.sort(function(a,b){
+        return a.position.y - b.position.y;
+			}));
+  }
 
   return EnvironmentView;
 
@@ -38844,5 +38856,3 @@ exports.DebugItem = function DebugItem(lineno, filename) {
 
 },{}]},{},[1])(1)
 });
-
-//# sourceMappingURL=vendor.js.map
